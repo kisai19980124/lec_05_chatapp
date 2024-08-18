@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
-</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /></head>
 <body>
 
 <!-- コンテンツ表示画面 -->
@@ -21,13 +21,20 @@
 </div>
 
 <div class="window">
-    <div class="banner">チャットルーム</div>
+    <div class="banner">
+        <div class="chatroom_name">チャットルーム</div>
+        <div class="allclear" id="allclear"><span class="material-symbols-outlined" id="allclear_btn">
+            delete
+            </span></div>
+    </div>
     <div class="content">
         <div id="output" class="output"></div>
     </div>
     <div class="inputbar">
         <textarea id="text" placeholder="メッセージを入力..." class="messageenter"></textarea>
-        <button id="send" class="sendbutton">送信</button>
+        <button id="send" class="sendbutton"><span class="material-symbols-outlined">
+            send
+            </span></button>
     </div>
 </div>
 
@@ -45,7 +52,7 @@
 <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
-    import { getDatabase,ref,  push, set, onChildAdded, remove, onChildRemoved } 
+    import { getDatabase,ref,  push, set, onChildAdded, remove, onChildRemoved,serverTimestamp } 
     from "https://www.gstatic.com/firebasejs/9.20.0/firebase-database.js";
   
     // Your web app's Firebase configuration
@@ -67,31 +74,46 @@
     })
     //送信
     $("#send").on("click",function(){
-        const msg = {
-            uname : $("#uname").val(),
-            text : $("#text").val(),
-            //icon
-            timestamp : 1
-            //撤回フラグ
+        if ($("#text").val()){
+            //let timenow = new Date($.now());
+            const msg = {
+                uname : $("#uname").val(),
+                text : $("#text").val(),
+                //icon
+                timestamp : serverTimestamp(),
+                
+                //撤回フラグ
+            }
+            console.log(msg.timestamp);
+            const newPostRef = push(dbRef);
+            set(newPostRef, msg);
+            $("#text").val("");
+            $("#text").focus();
         }
-        const newPostRef = push(dbRef);
-        set(newPostRef, msg);
-        $("#text").val("");
+
     });
 
     onChildAdded(dbRef, function(data){
         const msg = data.val();
         const key = data.key;
-        console.log(data);
+        console.log(msg);
         
-        let h = '<div class="message"><div class="icon">';
+        let h = '<div class="message" id="';
+            h += key;
+            h += '"><div class="icon">';
+            h += '<span class="material-symbols-outlined">person</span>';
             h += '</div><div class="bubble"><div class="abovebubble"><div class="username">';
             h += msg.uname;
             h += '</div><div class="timestamp">';
-            h += '12:30';
-            h += '</div></div><p class="messagetext">';
+            if (msg.timestamp){
+                let dateTime = new Date(msg.timestamp)
+                h += dateTime.toLocaleTimeString("ja-JP",{hour: "2-digit", minute: "2-digit" });
+                
+            };
+            
+            h += '</div></div><div class="belowbubble"><div class="messagetext">';
             h += msg.text;
-            h += "</p></div></div>";
+            h += '</div><div class="delete_btn"><span class="round_btn"></span></div></div></div></div>';
             $("#output").append(h); //https://codepen.io/AllThingsSmitty/pen/jommGQ
         let scrollHeight = document.getElementById("output").scrollHeight;
         
@@ -101,9 +123,38 @@
         },100);
     })
 
-    //Enterで送信
+    $(document).on("mouseenter", ".bubble", function() {
+        $(this).find(".delete_btn").css("display", "flex");
+    });
+
+    $(document).on("mouseleave", ".bubble", function() {
+        $(this).find(".delete_btn").css("display", "none");
+    });
+
+    $(document).on("click", ".round_btn", function() {
+        var parentId = $(this).closest(".message").attr("id");
+        const dbref_remove = ref(db, "chat/"+parentId);
+        //console.log(parentId);
+        remove(dbref_remove);
+        $(this).closest(".message").remove();
+    });
+
+    $(document).ready(function() {
+    $("#text").on("keypress", function(event) {
+            if (event.which === 13 && !event.shiftKey) {  // Check if Enter key is pressed without Shift
+                event.preventDefault();  // Prevent default behavior (i.e., new line)
+                $("#send").click();  // Trigger click event on #send button
+            }
+        });
+    });
+    
+    $("#allclear").on("click",function(){
+        const dbref_remove = ref(db, "chat/");
+        remove(dbref_remove);
+        console.log("clear");
+        $(".message").remove();
+    });
     //撤回ボタンで消す
-    //ゴミ箱ボタンでオールクリア
 
 </script>
 

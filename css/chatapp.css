@@ -15,7 +15,13 @@ body{
     
 }
 
-
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
 
 .modal{
     position:fixed;
@@ -35,7 +41,7 @@ body{
     padding: 25px;
     border: 0px solid #888;
     border-radius: 5px;
-    box-shadow: 0 0 10px gray;
+    box-shadow: 0 0 10px #616161;
     min-width: 300px;
     width: fit-content;
     align-items: center;
@@ -56,8 +62,10 @@ body{
     overflow: hidden;
 }
 .banner{
+    display: flex;
+    flex-direction: row;
     flex-basis: 60px;
-    padding: 0.5rem 1rem;
+    padding: 10px 20px;
     flex-shrink: 0;
     background-color: #2196F3;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
@@ -65,6 +73,34 @@ body{
     font-weight: bold;
     z-index: 10;
 }
+
+.chatroom_name{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+    user-select: none;
+}
+
+.allclear{
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+}
+
+.allclear:hover{
+    background-color: #64B5F6;
+}
+
+.allclear:active{
+    background-color: #90CAF9;
+}
+
 .content{
     display: flex;
     flex-basis: 1;
@@ -80,7 +116,7 @@ body{
     display: flex;
 
     flex-direction: row;
-    flex-basis: 100px;
+    flex-basis: 75px;
     flex-shrink: 0;
     z-index: 10;
     background-color: #FFF;
@@ -102,6 +138,7 @@ button{
     position: relative;
     overflow: hidden;
     font-size: large;
+
 ;
 }
 
@@ -143,10 +180,15 @@ input[type=name], select{
 }
 
 .sendbutton{
+    display: flex;
     height: auto;
-    width: 100px;
+    width: 75px;
     padding: 12px;
     margin: 8px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .output{
@@ -154,6 +196,7 @@ input[type=name], select{
     height: auto;
     flex-grow: 1;
     overflow: auto;
+    padding: 0.5rem 0.5rem;
 }
 
 .message{
@@ -166,12 +209,16 @@ input[type=name], select{
 }
 
 .icon{
+    display: flex;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
     border: 1px solid #000;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
 }
 .icon img{
     width: 100%;
@@ -199,6 +246,63 @@ input[type=name], select{
     flex-direction: row;
 }
 
+.belowbubble{
+    display: flex;
+    flex-direction: row;
+}
+
+.delete_btn{
+    width: 30px;
+    padding: 0 5px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.round_btn{
+    display: block;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #9E9E9E; /* 枠の調整 */
+    border-radius: 50%;  /* 丸みの度合い */
+    background: #fff; /* ボタンの背景色 */
+    cursor: pointer;
+    user-select: none;
+}
+
+.round_btn::before, .round_btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px; /* 棒の幅（太さ） */
+    height: 10px; /* 棒の高さ */
+    background: #9E9E9E; /* バツ印の色 */
+    transform-origin: center;
+}
+   
+.round_btn::before {
+    transform: translate(-50%,-50%) rotate(45deg);
+}
+   
+.round_btn::after {
+    transform: translate(-50%,-50%) rotate(-45deg);
+}
+
+.round_btn:hover{
+    border: 2px solid #E0E0E0;
+}
+
+.round_btn:hover::before{
+    background: #E0E0E0;
+}
+
+.round_btn:hover::after{
+    background: #E0E0E0;
+}
+
+
 .username{
     margin: 0rem 1rem 0.1rem 0;
     font-size: 20px;
@@ -206,13 +310,15 @@ input[type=name], select{
     text-overflow: ellipsis;
     overflow: hidden;
     text-wrap: nowrap;
+    user-select: none;
 }
 .timestamp{
     margin: 0rem 0rem 0.1rem 0;
     font-size: 20px;
-    color: gray;
+    color: #616161;
     width: fit-content;
     text-align: right;
+    user-select: none;
 }
 .messagetext{
     align-items: flex-start;
