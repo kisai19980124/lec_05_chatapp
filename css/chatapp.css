@@ -1,0 +1,249 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    height: 100%;
+    font-family: "Noto Sans JP",sans-serif;
+    font-size: x-large;
+}
+
+body{
+    min-height: 100vh;
+    
+}
+
+
+
+.modal{
+    position:fixed;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content{
+    display:flex;
+    flex-direction: column;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 25px;
+    border: 0px solid #888;
+    border-radius: 5px;
+    box-shadow: 0 0 10px gray;
+    min-width: 300px;
+    width: fit-content;
+    align-items: center;
+}
+
+.initwindow{
+    display: flex;
+}
+
+.window{
+
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    justify-content: space-around;
+    overflow: hidden;
+}
+.banner{
+    flex-basis: 60px;
+    padding: 0.5rem 1rem;
+    flex-shrink: 0;
+    background-color: #2196F3;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+    color: #FFF;
+    font-weight: bold;
+    z-index: 10;
+}
+.content{
+    display: flex;
+    flex-basis: 1;
+    padding: 0px;
+    height: auto;
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: #FFF;
+    
+}
+.inputbar{
+    display: flex;
+
+    flex-direction: row;
+    flex-basis: 100px;
+    flex-shrink: 0;
+    z-index: 10;
+    background-color: #FFF;
+    border: 0.01rem solid #E0E0E0;
+}
+
+button{
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    cursor:pointer;
+    color: white;
+    background-color: #2196F3;
+    padding: 10px 16px;
+    margin: 5px;
+    border-radius: 1rem;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),0 1px 5px 0 rgba(0,0,0,.12);
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-size: large;
+;
+}
+
+button:hover, button:focus {
+    /* 背景色を少し明るくする */
+    background-color: #29B6F6;
+    /* 影を少し伸ばす */
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),0px 4px 5px 0px rgba(0, 0, 0, 0.14),0px 1px 10px 0px rgba(0,0,0,.12);
+ }
+button:active {
+    /* 背景色をさらに明るくする */
+    background-color: #4FC3F7;
+    /* 影をさらに伸ばす */
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),0px 8px 10px 1px rgba(0, 0, 0, 0.14),0px 3px 14px 2px rgba(0,0,0,.12);
+}
+
+input[type=name], select{
+    width: 100%;
+    padding: 12px 12px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: large;
+}
+
+.messageenter{
+    resize: none;
+    flex: 1;
+    height: auto;
+    padding: 12px;
+    margin: 8px;
+    font-size: large;
+    font-family: sans-serif;
+    border: 0px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.sendbutton{
+    height: auto;
+    width: 100px;
+    padding: 12px;
+    margin: 8px;
+}
+
+.output{
+    width: 100%;
+    height: auto;
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.message{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    padding: 0.25rem 0.25rem;
+}
+
+.icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #000;
+}
+.icon img{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.bubble{
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    max-width: 75%;
+    width: fit-content;
+    padding: 0rem 0.5rem;
+}
+
+.abovebubble{
+    display: flex;
+    flex-direction: row;
+}
+
+.username{
+    margin: 0rem 1rem 0.1rem 0;
+    font-size: 20px;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+}
+.timestamp{
+    margin: 0rem 0rem 0.1rem 0;
+    font-size: 20px;
+    color: gray;
+    width: fit-content;
+    text-align: right;
+}
+.messagetext{
+    align-items: flex-start;
+    background-color: #e5e5ea;
+    color: black;
+    border-radius: 1rem;
+    line-height: 1.25;
+    max-width: 100%;
+    padding: 0.5rem .875rem;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.messagetext::before{
+    top: 0.1rem;
+    content: "";
+    height: 1rem;
+    position: absolute;
+    border-top-right-radius: 0.8rem 0.7rem;
+    border-left: 1rem solid #e5e5ea;
+    left: -0.35rem;
+    transform: translate(0, -0.1rem);
+}
+.messagetext::after{
+    top: 0.1rem;
+    content: "";
+    height: 1rem;
+    position: absolute;
+    background-color: #fff;
+    border-top-right-radius: 0.5rem;
+    left: 20px;
+    transform: translate(-30px, -2px);
+    width: 10px;
+}

@@ -3,25 +3,35 @@
 <head>
 <meta charset="utf-8">
 <title>Firebase:v9:Chatアプリ</title>
+<link rel="stylesheet" href="css/chatapp.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- コンテンツ表示画面 -->
+<div class="modal" id="namesetting">
+    <div class="modal-content">
+        <div>名前を入力</div>
+        <div><input type="name" placeholder="名無しさん" id="uname" class="namebox"></div>
+
+        <div><button id="confirmname">入室</button></div>
+    </div>
+</div>
 
 <div class="window">
-    <div class="banner"></div>
-    <div class="content"></div>
-    <div class="inputbar"></div>
+    <div class="banner">チャットルーム</div>
+    <div class="content">
+        <div id="output" class="output"></div>
+    </div>
+    <div class="inputbar">
+        <textarea id="text" placeholder="メッセージを入力..." class="messageenter"></textarea>
+        <button id="send" class="sendbutton">送信</button>
+    </div>
 </div>
 
-<div>
-    <div> 名前：<input type="text" id="uname"> </div>
-    <div>
-        <textarea id="text" cols="30" rows="10"></textarea>
-        <button id="send">送信</button>
-    </div>
-    <div id="output" style="overflow: auto;height: 300px;"></div>
-</div>
+
 <!--/ コンテンツ表示画面 -->
 
 
@@ -40,13 +50,7 @@
   
     // Your web app's Firebase configuration
     const firebaseConfig = {
-        apiKey: "AIzaSyAJYrKE2TvHwL6wZb_nBsNQ-DbIKcaJIVw",
-        authDomain: "gs-challengeproject.firebaseapp.com",
-        projectId: "gs-challengeproject",
-        databaseURL: "https://gs-challengeproject-default-rtdb.asia-southeast1.firebasedatabase.app",
-        storageBucket: "gs-challengeproject.appspot.com",
-        messagingSenderId: "724072872495",
-        appId: "1:724072872495:web:4730a5cad757634f5b24da"
+
     };
     // Initialize Firebase
     
@@ -55,27 +59,51 @@
     const db = getDatabase(app); //RealtimeDBに接続
     const dbRef = ref(db,"chat"); //RT DB内の chat を使う
 
+    $("#confirmname").on("click", function(){
+        $("#namesetting").css("display","none");
+        if (!$("#uname").val()) {
+            $("#uname").val("名無しさん")
+        }
+    })
     //送信
     $("#send").on("click",function(){
         const msg = {
             uname : $("#uname").val(),
-            text : $("#text").val()
+            text : $("#text").val(),
+            //icon
+            timestamp : 1
+            //撤回フラグ
         }
         const newPostRef = push(dbRef);
         set(newPostRef, msg);
+        $("#text").val("");
     });
 
     onChildAdded(dbRef, function(data){
         const msg = data.val();
         const key = data.key;
-        let h = "<p>";
+        console.log(data);
+        
+        let h = '<div class="message"><div class="icon">';
+            h += '</div><div class="bubble"><div class="abovebubble"><div class="username">';
             h += msg.uname;
-            h += "<br>";
+            h += '</div><div class="timestamp">';
+            h += '12:30';
+            h += '</div></div><p class="messagetext">';
             h += msg.text;
-            h += "</p>";
-            $("#output").append(h);
+            h += "</p></div></div>";
+            $("#output").append(h); //https://codepen.io/AllThingsSmitty/pen/jommGQ
+        let scrollHeight = document.getElementById("output").scrollHeight;
+        
+        $("#output").scroll();
+        $("#output").animate({
+            scrollTop: scrollHeight
+        },100);
     })
 
+    //Enterで送信
+    //撤回ボタンで消す
+    //ゴミ箱ボタンでオールクリア
 
 </script>
 
