@@ -5,7 +5,7 @@
 
 ## 課題内容
 
-- FirebaseのRealtime Database機能を利用し，
+- FirebaseのRealtime Database機能を利用し，LINE的なチャットアプリを作成
 
 ## DEMO
 https://gsacademy-ki.sakura.ne.jp/lec_05_chatapp/simple.html
